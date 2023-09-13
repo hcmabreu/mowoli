@@ -1,6 +1,14 @@
 FROM ruby:2.0.0-p648
-RUN apt-get update \
-  && apt-get -y --no-install-recommends install nodejs \
+
+#RUN echo "deb [check- http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list
+RUN echo "deb [allow-insecure=yes] http://archive.debian.org/debian stretch main" > /etc/apt/sources.list
+RUN echo "deb [allow-insecure=yes] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+RUN sed -i '/deb http:\/\/\(deb\|httpredir\).debian.org\/debian jessie.* main/d' /etc/apt/sources.list
+#RUN sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+RUN apt-get -o Acquire::Check-Valid-Until=false update
+
+RUN apt-get update -y --force-yes \
+  && apt-get -y --force-yes --no-install-recommends install nodejs \
   && rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/mowoli
 COPY Gemfile Gemfile.lock ./
