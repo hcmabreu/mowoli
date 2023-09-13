@@ -27,5 +27,6 @@ ENV SCHEDULED_PERFORMING_PHYSICIANS_NAME="Simpson^Bart"
 # This sets DICOM-Tag (0010,0021).
 ENV ISSUER_OF_PATIENT_ID="MOWOLI"
 ENV RAILS_ENV=development
+RUN bin/rake db:migrate RAILS_ENV=development
 EXPOSE 3000
 CMD ["bundle","exec","puma","--config","config/puma.rb"]
